@@ -23,8 +23,11 @@
 
 [环境部署和动作演示（3倍速）](./Weekly%20Progress.assets/video.mp4)
 
+<!-- markdownlint-disable-next-line MD034 -->
+https://github.com/user-attachments/assets/6aac130f-94b9-4149-872e-d3e4f08c1e40
+
 <!-- markdownlint-disable-next-line MD033 -->
-<video controls style="max-width: 100%;"><source src="./Weekly Progress.assets/video.mp4" type="video/mp4"><source src="https://github.com/user-attachments/assets/6aac130f-94b9-4149-872e-d3e4f08c1e40" type="video/mp4"></video>
+<video src="./Weekly Progress.assets/video.mp4" controls></video>
 
 ### 下周计划
 
