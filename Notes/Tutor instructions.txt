@@ -1,0 +1,15 @@
+1. pi0 & pi0.5 paper & coding，以此为核心example，深入理解vla training pipeline (data challenge & model arch design, especially the action expert part, and implementation details)
+
+https://www.physicalintelligence.company/blog/pi05
+https://github.com/Physical-Intelligence/openpi
+
+2. vla survey high-level了解这个领域在做什么工作
+
+https://arxiv.org/abs/2507.01925
+https://arxiv.org/abs/2509.19012
+
+3. 工具: mujoco，跑通仿真examples，比如宇树机器狗 https://github.com/unitreerobotics/unitree_mujoco，同时insert 不同vla as driven models
+
+4. 学院录取材料请联系招生老师
+
+5. 周报请参考 https://wcn4txey8qlx.feishu.cn/wiki/K1h2wq8myisigvkVZp3c3402nad

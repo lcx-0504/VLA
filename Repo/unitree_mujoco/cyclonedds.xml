@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<CycloneDDS xmlns="https://cdds.io/config" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://cdds.io/config https://raw.githubusercontent.com/eclipse-cyclonedds/cyclonedds/master/etc/cyclonedds.xsd">
+    <Domain id="any">
+        <!-- 启用共享内存传输，大幅降低同一主机上的通信延迟 -->
+        <SharedMemory>
+            <Enable>true</Enable>
+            <LogLevel>warning</LogLevel>
+        </SharedMemory>
+        
+        <!-- 网络配置 -->
+        <General>
+            <NetworkInterfaceAddress>lo0</NetworkInterfaceAddress>
+            <AllowMulticast>false</AllowMulticast>
+        </General>
+        
+        <!-- 优化传输性能 -->
+        <Internal>
+            <Watermarks>
+                <WhcHigh>500kB</WhcHigh>
+            </Watermarks>
+            <SocketReceiveBufferSize min="10MB"/>
+            <SocketSendBufferSize>2MB</SocketSendBufferSize>
+        </Internal>
+        
+        <!-- 降低发现延迟 -->
+        <Discovery>
+            <ParticipantIndex>auto</ParticipantIndex>
+            <MaxAutoParticipantIndex>100</MaxAutoParticipantIndex>
+            <SPDPInterval>0.5s</SPDPInterval>
+        </Discovery>
+    </Domain>
+</CycloneDDS>
+
