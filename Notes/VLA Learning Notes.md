@@ -205,7 +205,7 @@ $$
 **训练目标**：最大化真实token序列的对数似然，等价于最小化交叉熵损失：
 
 $$
-L = -\sum_i \log P(y_i | y_{<i})
+L = -\sum_i \log P(y_i | y_{1:i-1})
 $$
 
 **推理过程**：逐token采样生成。每步模型输出词汇表上的概率分布$P(\cdot|context) = \text{softmax}(logits)$，从中采样下一个token。可用temperature参数$T$控制多样性：$T$越高越随机，$T$越低越确定。
