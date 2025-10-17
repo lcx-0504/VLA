@@ -8,7 +8,7 @@
 
 - **π0.5 Blog 学习**
   - 阅读 [Blog-Pi05: A VLA with Open-World Generalization]((https://www.physicalintelligence.company/blog/pi05))
-  - 学习了 π0.5 的研究背景、解决方案、实验设计与结果，并整理了笔记（见 [VLA Learning Notes - Pi05 Blog](VLA%20Learning%20Notes.md#11-blog-pi05-a-vla-with-open-world-generalization) ）
+  - 学习了 π0.5 的研究背景、解决方案、实验设计与结果，并整理了笔记（见 [VLA Learning Notes - 1.1 Blog-Pi05: A VLA with Open-World Generalization](VLA%20Learning%20Notes.md#11-blog-pi05-a-vla-with-open-world-generalization) ）
 
 - **Diffusion Model 知识学习**
   - π0.5 的 Flow Matching 技术与扩散模型密切相关，因此补充学习了扩散模型的知识
