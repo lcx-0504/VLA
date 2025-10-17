@@ -19,10 +19,12 @@
 - **MuJoCo 仿真环境部署**
   - 在 macOS 上成功部署 [unitree_mujoco](../Repo/unitree_mujoco/) 仿真环境
   - 解决了官方代码在 macOS 上的兼容性问题，修复了兼容性 fallback 分支中的一个小 bug。具体见 [macOS修改说明](../Repo/unitree_mujoco/macOS修改说明.md)
-  - 成功运行机器人站起来/坐下的基本动作演示（3倍速）
+  - 成功运行机器人站起来/坐下的基本动作
 
-<!-- markdownlint-disable MD029 MD033 -->
-<video controls src="Weekly Progress.assets/video.mp4"></video>
+[环境部署和动作演示（3倍速）](./Weekly%20Progress.assets/video.mp4)
+
+<!-- markdownlint-disable-next-line MD033 -->
+<video controls style="max-width: 100%;"><source src="./Weekly Progress.assets/video.mp4" type="video/mp4"><source src="https://github.com/user-attachments/assets/6aac130f-94b9-4149-872e-d3e4f08c1e40" type="video/mp4"></video>
 
 ### 下周计划
 
