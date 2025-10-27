@@ -63,10 +63,10 @@ https://github.com/user-attachments/assets/6aac130f-94b9-4149-872e-d3e4f08c1e40
   - 精读 [π0.5 完整论文](../Paper/Paper-Pi05:%20a%20Vision-Language-Action%20Model%20with%20Open-World%20Generalization.pdf) 的前半部分（Abstract, Introduction, Related Work, Preliminaries）
   - 深入理解 π0.5 的核心创新点：异构数据联合训练（co-training on heterogeneous data）实现开放世界泛化
   - 学习了 VLA 的发展脉络和 π0.5 相对于其他模型（OpenVLA, Octo, RT-2等）的技术优势
-  - 详细笔记见 [VLA Learning Notes - 1.2 Paper-Pi05](VLA%20Learning%20Notes.md#12-paper-pi05-a-vision-language-action-model-with-open-world-generalization)
+  - 详细笔记见 [VLA Learning Notes - Paper-Pi05: a Vision-Language-Action Model with Open-World Generalization](VLA%20Learning%20Notes.md#12-paper-pi05-a-vision-language-action-model-with-open-world-generalization)
 
 - **VLA 关键技术深度学习（Preliminaries 部分）**
-  - VLA 训练目标：最大化对数似然 `max E[log π_θ(a_{t:t+H} | o_t, ℓ)]`
+  - VLA 训练目标：最大化对数似然 $\max_\theta E[\log \pi_\theta(a_{t:t+H} | o_t, \ell)]$
   - 观察与动作表示：多模态观察的编码方式、离散token与连续action的表示
   - **FAST 动作编码**：通过VQ-VAE实现动作序列的压缩表示，类似"关键帧+神经网络拟合"
   - **Action Expert 架构**：Pre-training使用FAST离散token，Post-training使用Flow Matching生成连续动作
