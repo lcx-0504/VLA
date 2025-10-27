@@ -21,7 +21,3 @@ VLA/
 
 - [VLA Learning Notes](Notes/VLA%20Learning%20Notes.md) - VLA 详细学习笔记
 - [Weekly Progress](Notes/Weekly%20Progress.md) - 每周学习进度和计划
-
----
-
-**Note**: 本仓库为个人学习笔记，仅供参考。
