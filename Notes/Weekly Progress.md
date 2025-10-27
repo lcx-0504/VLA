@@ -93,7 +93,7 @@ Flow Matching详细笔记见：[笔记 - Flow Matching Explained - From Noise to
   - 在机器人控制中，一个"点"是n×H维矩阵（如7关节×50时间步=350维）
   - 通过Flow Matching从随机噪声矩阵逐步去噪生成完整的动作序列
   - 代码实现：学习了FlowMatchingNetwork的架构（观察编码器、时间编码器、动作编码器、解码器）
-  - 训练损失：$L = \mathbb{E}[\lVert v_\theta(x_\tau, obs, \tau) - \frac{x_1-x_0}{1-\tau}\rVert^2]$
+  - 训练损失：最小化预测速度和理想速度之间的均方误差（MSE Loss）
   - 推理生成：通过欧拉法迭代求解ODE，steps=10-50次即可生成高质量动作序列
 
 - **与 DDPM 对比理解**
