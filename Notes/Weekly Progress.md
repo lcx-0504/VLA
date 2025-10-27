@@ -2,7 +2,7 @@
 
 ## Week 1（2025.10.8 - 2025.10.17）
 
-### 本周完成内容
+### Week 1 完成内容
 
 #### 1. 理论学习
 
@@ -29,7 +29,7 @@ https://github.com/user-attachments/assets/6aac130f-94b9-4149-872e-d3e4f08c1e40
 <!-- markdownlint-disable-next-line MD033 -->
 <video src="./Weekly Progress.assets/video.mp4" controls></video>
 
-### 下周计划
+### Week 2 计划
 
 #### 1. 理论深入
 
@@ -47,7 +47,7 @@ https://github.com/user-attachments/assets/6aac130f-94b9-4149-872e-d3e4f08c1e40
   - 研究 [openpi 代码库](../Repo/openpi/) 的使用方法，尝试将 VLA 模型与 MuJoCo 仿真环境结合
   - 探索如何用 π0 或其他 VLA 模型控制 unitree 机器人
 
-### 本周总结
+### Week 1 总结
 
 本周主要建立了 VLA 领域的理论基础和实践环境。通过学习 π0.5 Blog 和 Diffusion Model，对视觉-语言-动作模型的核心技术有了系统性理解。同时成功搭建了机器人仿真环境，为后续的实践探索打下了基础。下周将深入学习 Flow Matching 和 π0.5 论文，并开始尝试用 VLA 模型驱动机器人。
 
