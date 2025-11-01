@@ -18,11 +18,9 @@ VLA/
 │   ├── Week 1.md                       # 第一周周报
 │   ├── Week 2.md                       # 第二周周报
 │   └── 周报示例/                       # 周报参考
-├── Repo/                               # 代码仓库
-│   ├── openpi/                         # Pi0.5 官方代码
-│   └── unitree_mujoco/                 # MuJoCo 仿真环境
-├── Notes/                              # 原始笔记（备份）
-└── Paper/                              # 原始论文（备份）
+└── Repo/                               # 代码仓库
+    ├── openpi/                         # Pi0.5 官方代码
+    └── unitree_mujoco/                 # MuJoCo 仿真环境
 ```
 
 ## 📖 快速链接
