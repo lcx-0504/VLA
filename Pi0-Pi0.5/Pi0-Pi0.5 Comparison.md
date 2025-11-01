@@ -53,7 +53,7 @@
 
 ### 1. Action Expert：Adaptive RMSNorm时间步注入
 
-这是π0.5在Flow Matching实现上的重要改进，改变了时间步信息$t$的注入方式。
+这是π0.5在Flow Matching实现上的重要改进，改变了时间步信息 $t$ 的注入方式。
 
 **源代码位置**：
 
@@ -201,8 +201,8 @@ $$
 \mathcal{L} = \mathcal{H}(\text{text\_tokens}, \text{FAST\_tokens}) + \alpha \|\omega - A_t - f_\theta^a(A_t^\tau, o_t, \ell)\|^2
 $$
 
-- Pre-training时 $\alpha=0$（只训练离散表示）
-- Post-training时 $\alpha=10.0$（两个loss同时优化）
+- Pre-training时 $\alpha=0$ （只训练离散表示）
+- Post-training时 $\alpha=10.0$ （两个loss同时优化）
 
 **设计动机**：
 > "VLA training can be much faster when actions are represented by discrete tokens... Unfortunately, such discrete representations are less well-suited for real-time inference, because they require expensive autoregressive decoding."

@@ -128,9 +128,9 @@ $$
 - **θ**：模型参数（神经网络的权重），这是训练的目标。
 - **D**：机器人演示数据集，包含以下的三元组的数据。
 - **数据三元组（下标）**：
-  - $a_{t:t+H}$：动作序列（action chunk），从时刻t到t+H这一段时间内的连续动作（如50步×7维=350个数值）。
-  - $o_t$：时刻t的观察（由对环境的外部感知以及对自身状态的内部感知组成，详见[观察的组成结构](#观察的组成结构)）
-  - $ℓ$：语言指令
+  - $a_{t:t+H}$ ：动作序列（action chunk），从时刻t到t+H这一段时间内的连续动作（如50步×7维=350个数值）。
+  - $o_t$ ：时刻t的观察（由对环境的外部感知以及对自身状态的内部感知组成，详见[观察的组成结构](#观察的组成结构)）
+  - $ℓ$ ：语言指令
 - **期望 E**：对所有训练数据求平均
 - **log π_θ(...)**：模型预测该动作序列的对数概率。取对数在保持优化目标不变的同时把乘法变成加法，避免数值计算问题。
 
@@ -144,7 +144,7 @@ $$
 
 #### 1. 外部感知 (Exteroception)
 
-多视角图像 $I_1^t, ..., I_n^t$：
+多视角图像 $I_1^t, ..., I_n^t$ ：
 
 - 通常3个摄像头（手腕视角、头部视角、外部视角，具体数量根据具体任务和机器人平台而定）
 - 每张图像如224×224×3的RGB图像
@@ -152,7 +152,7 @@ $$
 
 #### 2. 内部感知 (Proprioception)
 
-本体感知状态 $q_t$：
+本体感知状态 $q_t$ ：
 
 - **关节角度**：每个关节当前的角度值
 - **夹爪状态**：开合程度（0到1）
@@ -314,7 +314,7 @@ class FsqAttentionTokenizer:
 
 **数学表示**：
 
-从噪声 $x_0 \sim \mathcal{N}(0,I)$ 到真实动作 $x_1 = a_{t:t+H}$ 建立线性插值路径：
+从噪声 $x_0 \sim \mathcal{N}(0,I) $ 到真实动作 $ x_1 = a_{t:t+H}$ 建立线性插值路径：
 
 $$
 x_\tau = (1-\tau) \cdot x_0 + \tau \cdot x_1, \quad \tau \in [0,1]
@@ -706,7 +706,7 @@ def forward(self, inputs_embeds, adarms_cond, ...):
 
 **核心分布：**
 
-$$\pi_\theta(a_{t:t+H}, \hat{\ell} | o_t, \ell)$$
+$ $ \pi_\theta(a_{t:t+H}, \hat{\ell} | o_t, \ell) $ $
 
 **符号说明：**
 
@@ -722,30 +722,30 @@ $$\pi_\theta(a_{t:t+H}, \hat{\ell} | o_t, \ell)$$
 
 **公式整体含义：**
 
-对于参数为$\theta$的模型$\pi$，给定当前观察$o_t$和总任务$\ell$作为输入，模型输出动作序列$a_{t:t+H}$和子任务文本$\hat{\ell}$的联合概率分布。
+对于参数为 $\theta $ 的模型 $ \pi $ ，给定当前观察 $ o_t $ 和总任务 $ \ell $ 作为输入，模型输出动作序列 $ a_{t:t+H} $ 和子任务文本 $ \hat{\ell}$ 的联合概率分布。
 
 **分布分解（层次化推理的数学基础）：**
 
-$$\pi_\theta(a_{t:t+H}, \hat{\ell} | o_t, \ell) = \pi_\theta(a_{t:t+H} | o_t, \hat{\ell}) \cdot \pi_\theta(\hat{\ell} | o_t, \ell)$$
+$ $ \pi_\theta(a_{t:t+H}, \hat{\ell} | o_t, \ell) = \pi_\theta(a_{t:t+H} | o_t, \hat{\ell}) \cdot \pi_\theta(\hat{\ell} | o_t, \ell) $ $
 
 **公式整体含义：**
 
-给定观察$o_t$和总任务$\ell$，输出动作和子任务的联合分布，可以分解为两步：
+给定观察 $o_t $ 和总任务 $ \ell$ ，输出动作和子任务的联合分布，可以分解为两步：
 
-1. **第一步（高级推理）**：同一个模型$\pi_\theta$根据观察$o_t$和总任务$\ell$，输出子任务$\hat{\ell}$
-2. **第二步（低级推理）**：同一个模型$\pi_\theta$根据观察$o_t$和子任务$\hat{\ell}$（注意不再是$\ell$），输出动作$a_{t:t+H}$
+1. **第一步（高级推理）**：同一个模型 $\pi_\theta $ 根据观察 $ o_t $ 和总任务 $ \ell $ ，输出子任务 $ \hat{\ell}$
+2. **第二步（低级推理）**：同一个模型 $\pi_\theta $ 根据观察 $ o_t $ 和子任务 $ \hat{\ell} $ （注意不再是 $ \ell $ ），输出动作 $ a_{t:t+H}$
 
-**关键洞察**：动作分布不直接依赖总任务$\ell$，只依赖子任务$\hat{\ell}$！这实现了"思考-执行"的层次化分离。
+**关键洞察**：动作分布不直接依赖总任务 $\ell $ ，只依赖子任务 $ \hat{\ell}$ ！这实现了"思考-执行"的层次化分离。
 
 **两个独立的推理过程：**
 
-1. **高级推理**：$\pi_\theta(\hat{\ell} | o_t, \ell)$
+1. **高级推理**： $\pi_\theta(\hat{\ell} | o_t, \ell)$
    - 输入：观察 + 总任务
    - 输出：子任务
    - 例如：给定"clean bedroom"，预测"pick up pillow"
 
-2. **低级推理**：$\pi_\theta(a_{t:t+H} | o_t, \hat{\ell})$
-   - 输入：观察 + 子任务（注意不是$\ell$！）
+2. **低级推理**： $\pi_\theta(a_{t:t+H} | o_t, \hat{\ell})$
+   - 输入：观察 + 子任务（注意不是 $\ell$ ！）
    - 输出：动作序列
    - 例如：给定"pick up pillow"，生成具体关节角度
 
@@ -753,18 +753,18 @@ $$\pi_\theta(a_{t:t+H}, \hat{\ell} | o_t, \ell) = \pi_\theta(a_{t:t+H} | o_t, \h
 
 **函数定义：**
 
-$$y_{1:N'} = f(x_{1:N}, A(x_{1:N}), \rho(x_{1:N}))$$
+$ $ y_{1:N'} = f(x_{1:N}, A(x_{1:N}), \rho(x_{1:N})) $ $
 
 其中：
 
-- $x_{1:N}$：N个输入tokens（多模态）
-- $A(x_{1:N}) \in [0, 1]^{N \times N}$：Attention矩阵（控制Token可见性）
-- $\rho(x_{1:N})$：Token类型指示器
-- $y_{1:N'}$：N'个输出tokens
+- $x_{1:N}$ ：N个输入tokens（多模态）
+- $A(x_{1:N}) \in [0, 1]^{N \times N}$ ：Attention矩阵（控制Token可见性）
+- $\rho(x_{1:N})$ ：Token类型指示器
+- $y_{1:N'}$ ：N'个输出tokens
 
 **Token类型：**
 
-每个$x_i$可以是：
+每个 $x_i$ 可以是：
 
 | 类型          | 符号                                         | 维度   | 说明           |
 | ------------- | -------------------------------------------- | ------ | -------------- |
@@ -788,7 +788,7 @@ $$y_{1:N'} = f(x_{1:N}, A(x_{1:N}), \rho(x_{1:N}))$$
 
 ##### 阶段2：Transformer层 - 专家分工
 
-根据$\rho(x_i)$指示的token类型，使用不同的专家权重：
+根据 $\rho(x_i)$ 指示的token类型，使用不同的专家权重：
 
 ```text
 主Transformer (W_main, 2B参数):
@@ -805,21 +805,21 @@ Action Expert (W_action, 300M参数):
 
 #### 输出结构
 
-$$y_{1:N'} = [y_{1:M}^\ell, y_{1:H}^a]$$
+$ $ y_{1:N'} = [y_{1:M}^\ell, y_{1:H}^a] $ $
 
 **两部分输出：**
 
-1. **文本token logits** $y_{1:M}^\ell$：
+1. **文本token logits** $y_{1:M}^\ell$ ：
    - M个logits向量
-   - 用于采样$\hat{\ell}$（子任务或答案）
+   - 用于采样 $\hat{\ell}$ （子任务或答案）
    - 通过softmax + 采样生成文本
 
-2. **动作output tokens** $y_{1:H}^a$：
+2. **动作output tokens** $y_{1:H}^a$ ：
    - H个tokens（H=50，对应50步动作）
    - 由Action Expert产生
    - 通过linear projection投影到动作空间（7维）
 
-**注意**：$M + H \leq N$
+**注意**： $M + H \leq N$
 
 不是所有输入tokens都有对应的loss。例如：
 
@@ -890,16 +890,16 @@ def tokenize(self, prompt, state=None):
 
 #### Attention矩阵的作用
 
-$A(x_{1:N}) \in [0, 1]^{N \times N}$控制token之间的可见性：
+$A(x_{1:N}) \in [0, 1]^{N \times N}$ 控制token之间的可见性：
 
 - $A[i][j] = 1$ (或0)：token i可以attend到token j
-- $A[i][j] = -\infty$：token i看不到token j（softmax后变0）
+- $A[i][j] = -\infty$ ：token i看不到token j（softmax后变0）
 
 **与自注意力机制的关系：**
 
-$$\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T + A}{\sqrt{d}}\right) V$$
+$ $ \text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T + A}{\sqrt{d}}\right) V $ $
 
-Attention矩阵$A$作为mask，控制信息流动。
+Attention矩阵 $A$ 作为mask，控制信息流动。
 
 **双向attention vs 因果attention：**
 
@@ -999,17 +999,17 @@ FM动作tokens:
 
 **数学定义：**
 
-$$\mathbb{E}_{D,\tau,\omega}\left[H(x_{1:M}, f_\theta^\ell(o_t, \ell)) + \alpha\left\|\omega - a_{t:t+H} - f_\theta^a(a_{t:t+H}^{\tau,\omega}, o_t, \ell)\right\|^2\right]$$
+$ $ \mathbb{E}_{D,\tau,\omega}\left[H(x_{1:M}, f_\theta^\ell(o_t, \ell)) + \alpha\left\|\omega - a_{t:t+H} - f_\theta^a(a_{t:t+H}^{\tau,\omega}, o_t, \ell)\right\|^2\right] $ $
 
 **分解理解：**
 
 ##### Loss 1：文本预测（包括FAST）
 
-$$L_{\text{text}} = H(x_{1:M}, f_\theta^\ell(o_t, \ell))$$
+$ $ L_{\text{text}} = H(x_{1:M}, f_\theta^\ell(o_t, \ell)) $ $
 
-- $H$：交叉熵（Cross Entropy）
-- $x_{1:M}$：真实的M个文本tokens（包括FAST tokens）
-- $f_\theta^\ell$：主Transformer的输出。包含子任务预测、FAST动作预测、问答等。
+- $H$ ：交叉熵（Cross Entropy）
+- $x_{1:M}$ ：真实的M个文本tokens（包括FAST tokens）
+- $f_\theta^\ell$ ：主Transformer的输出。包含子任务预测、FAST动作预测、问答等。
 
 **作用说明：**
 
@@ -1023,25 +1023,25 @@ $$L_{\text{text}} = H(x_{1:M}, f_\theta^\ell(o_t, \ell))$$
 
 ##### Loss 2：Flow Matching
 
-$$L_{\text{FM}} = \left\|\omega - a_{t:t+H} - f_\theta^a(a_{t:t+H}^{\tau,\omega}, o_t, \ell)\right\|^2$$
+$ $ L_{\text{FM}} = \left\|\omega - a_{t:t+H} - f_\theta^a(a_{t:t+H}^{\tau,\omega}, o_t, \ell)\right\|^2 $ $
 
-- $\|\cdot\|^2$：L2范数（均方误差，MSE）
-- $a_{t:t+H}$：真实动作（ground truth）
-- $\omega$：采样的噪声，$\omega \sim \mathcal{N}(0, I)$
-- $a_{t:t+H}^{\tau,\omega} = \tau \cdot a_{t:t+H} + (1-\tau) \cdot \omega$：插值（部分去噪的动作）
-- $\omega - a_{t:t+H}$：理想速度场（从噪声指向真实动作的方向）
-- $f_\theta^a$：Action Expert的输出（预测的速度场）
+- $\|\cdot\|^2$ ：L2范数（均方误差，MSE）
+- $a_{t:t+H}$ ：真实动作（ground truth）
+- $\omega $ ：采样的噪声， $ \omega \sim \mathcal{N}(0, I)$
+- $a_{t:t+H}^{\tau,\omega} = \tau \cdot a_{t:t+H} + (1-\tau) \cdot \omega$ ：插值（部分去噪的动作）
+- $\omega - a_{t:t+H}$ ：理想速度场（从噪声指向真实动作的方向）
+- $f_\theta^a$ ：Action Expert的输出（预测的速度场）
 
 **作用说明：**
 
 这是Flow Matching的速度场回归损失，用于训练Action Expert生成精确的连续动作。训练过程：
 
-1. **随机采样时间步**：$\tau \sim \text{Uniform}(0, 1)$，例如τ=0.3
-2. **随机采样噪声**：$\omega \sim \mathcal{N}(0, I)$，纯高斯噪声
-3. **构造插值**：$x_\tau = 0.3 \times a + 0.7 \times \omega$（30%真实动作 + 70%噪声）
-4. **计算理想速度场**：$v^* = a - \omega$（从噪声到真实动作的方向）
-5. **Action Expert预测**：$v_\theta = f_\theta^a(x_\tau, \tau, \text{语义特征})$
-6. **最小化误差**：$\|v_\theta - v^*\|^2$
+1. **随机采样时间步**： $\tau \sim \text{Uniform}(0, 1)$ ，例如τ=0.3
+2. **随机采样噪声**： $\omega \sim \mathcal{N}(0, I)$ ，纯高斯噪声
+3. **构造插值**： $x_\tau = 0.3 \times a + 0.7 \times \omega$ （30%真实动作 + 70%噪声）
+4. **计算理想速度场**： $v^* = a - \omega$ （从噪声到真实动作的方向）
+5. **Action Expert预测**： $v_\theta = f_\theta^a(x_\tau, \tau, \text{语义特征})$
+6. **最小化误差**： $\|v_\theta - v^*\|^2$
 
 通过在不同τ时刻的训练，Action Expert学会从任意"部分去噪"的状态预测正确的前进方向，最终实现从纯噪声生成清晰动作的能力。
 
@@ -1049,7 +1049,7 @@ $$L_{\text{FM}} = \left\|\omega - a_{t:t+H} - f_\theta^a(a_{t:t+H}^{\tau,\omega}
 
 **总Loss：**
 
-$$L_{\text{total}} = L_{\text{text}} + \alpha \cdot L_{\text{FM}}$$
+$ $ L_{\text{total}} = L_{\text{text}} + \alpha \cdot L_{\text{FM}} $ $
 
 **α的作用（超参数）：**
 
@@ -1589,7 +1589,7 @@ PD控制器（简单跟踪）
 
 #### 核心发现
 
-**对数线性扩展：** 性能随环境数量呈对数线性增长（$$\text{性能} \propto \log(\text{环境数量})$$），早期增加环境带来显著提升，后期提升逐渐变缓。这启示未来研究应优先追求环境多样性而非单一环境的数据量。
+**对数线性扩展：** 性能随环境数量呈对数线性增长（ $ $ \text{性能} \propto \log(\text{环境数量}) $ $ ），早期增加环境带来显著提升，后期提升逐渐变缓。这启示未来研究应优先追求环境多样性而非单一环境的数据量。
 
 **Co-training不可替代：** 关键发现是即使直接在测试环境训练，如果没有完整的Co-training配方，性能仍然很差。这证明问题的关键不在于数据量，而在于数据多样性和知识迁移。跨机器人数据、Web数据、高层标注提供的知识无法被更多的移动操作数据替代。
 
