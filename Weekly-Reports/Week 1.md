@@ -1,10 +1,8 @@
-# Weekly Progress
+# Week 1（2025.10.8 - 2025.10.17）
 
-## Week 1（2025.10.8 - 2025.10.17）
+## 本周完成内容
 
-### 本周完成内容
-
-#### 1. 理论学习
+### 1. 理论学习
 
 - **π0.5 Blog 学习**
   - 阅读 [Blog-Pi05: A VLA with Open-World Generalization]((https://www.physicalintelligence.company/blog/pi05))
@@ -14,7 +12,7 @@
   - π0.5 的 Flow Matching 技术与扩散模型密切相关，因此补充学习了扩散模型的知识
   - 学习 DDPM（Denoising Diffusion Probabilistic Models）的原理，理解了前向加噪过程和反向去噪过程，笔记见 [笔记 - Denoising Diffusion Probabilistic Models Tutorial（扩散模型）](../Flow-Matching/papers/DDPM-Tutorial.pdf)
 
-#### 2. 实践环境搭建
+### 2. 实践环境搭建
 
 - **MuJoCo 仿真环境部署**
   - 在 macOS 上成功部署 [unitree_mujoco](../Repo/unitree_mujoco/) 仿真环境
@@ -29,9 +27,9 @@ https://github.com/user-attachments/assets/6aac130f-94b9-4149-872e-d3e4f08c1e40
 <!-- markdownlint-disable-next-line MD033 -->
 <video src="./Week 1.assets/video.mp4" controls></video>
 
-### 下周计划
+## 下周可以进一步拓展的方向
 
-#### 1. 理论深入
+### 1. 理论深入
 
 - **Flow Matching 学习**
   - 深入理解 Flow Matching 的具体原理，理解为什么 π0.5 在 Post-training 阶段选择 Flow Matching
@@ -41,12 +39,12 @@ https://github.com/user-attachments/assets/6aac130f-94b9-4149-872e-d3e4f08c1e40
   - 理解实验设计和消融实验结果
   - 学习模型架构细节和训练策略
 
-#### 2. 实践探索
+### 2. 实践探索
 
 - **VLA Models 驱动机器人**
   - 研究 [openpi 代码库](../Repo/openpi/) 的使用方法，尝试将 VLA 模型与 MuJoCo 仿真环境结合
   - 探索如何用 π0 或其他 VLA 模型控制 unitree 机器人
 
-### 本周总结
+## 本周总结
 
 本周主要建立了 VLA 领域的理论基础和实践环境。通过学习 π0.5 Blog 和 Diffusion Model，对视觉-语言-动作模型的核心技术有了系统性理解。同时成功搭建了机器人仿真环境，为后续的实践探索打下了基础。下周将深入学习 Flow Matching 和 π0.5 论文，并开始尝试用 VLA 模型驱动机器人。
