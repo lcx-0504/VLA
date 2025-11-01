@@ -98,9 +98,9 @@ normed_inputs = normed_inputs * (1 + scale) + shift  # 动态调制
 
 $$
 \begin{aligned}
-\text{action\_emb} &= \text{linear}(a^\tau) \\
-\text{timestep\_emb} &= \text{swish}(W_2 \cdot \text{swish}(W_1 \cdot \phi(\tau))) \\
-\text{normed} &= \text{AdaptiveRMSNorm}(\text{action\_emb}, \text{timestep\_emb})
+\text{action emb} &= \text{linear}(a^\tau) \\
+\text{timestep emb} &= \text{swish}(W_2 \cdot \text{swish}(W_1 \cdot \phi(\tau))) \\
+\text{normed} &= \text{AdaptiveRMSNorm}(\text{action emb}, \text{timestep emb})
 \end{aligned}
 $$
 
@@ -109,7 +109,7 @@ $$
 $$
 \begin{aligned}
 \hat{x} &= \text{RMSNorm}(x) \\
-\text{scale}, \text{shift}, \text{gate} &= \text{Linear}_{3D}(\text{timestep\_emb}) \\
+\text{scale}, \text{shift}, \text{gate} &= \text{Linear}_{3D}(\text{timestep emb}) \\
 \text{output} &= \hat{x} \cdot (1 + \text{scale}) + \text{shift}
 \end{aligned}
 $$
@@ -198,7 +198,7 @@ def forward(self, observation, actions, noise=None, time=None):
 **Combined Loss公式**：
 
 $$
-\mathcal{L} = \mathcal{H}(\text{text\_tokens}, \text{FAST\_tokens}) + \alpha \|\omega - A_t - f_\theta^a(A_t^\tau, o_t, \ell)\|^2
+\mathcal{L} = \mathcal{H}(\text{text tokens}, \text{FAST tokens}) + \alpha \|\omega - A_t - f_\theta^a(A_t^\tau, o_t, \ell)\|^2
 $$
 
 - Pre-training时 $\alpha=0$ （只训练离散表示）

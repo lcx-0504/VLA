@@ -340,13 +340,13 @@ $$
 
 #### 5.2 数学形式对比
 
-| 维度         | DDPM                     | Flow Matching   |
-| ------------ | ------------------------ | --------------- |
-| **过程类型** | 离散马尔可夫链           | 连续ODE         |
+| 维度         | DDPM                      | Flow Matching    |
+| ------------ | ------------------------- | ---------------- |
+| **过程类型** | 离散马尔可夫链            | 连续ODE          |
 | **训练目标** | 预测加入的噪声 $\epsilon$ | 预测速度场 $u_t$ |
-| **推理步数** | 50-1000步                | 5-10步          |
-| **路径**     | 固定的扩散路径           | 可定制的流路径  |
-| **随机性**   | 每步加随机噪声           | 确定性过程      |
+| **推理步数** | 50-1000步                 | 5-10步           |
+| **路径**     | 固定的扩散路径            | 可定制的流路径   |
+| **随机性**   | 每步加随机噪声            | 确定性过程       |
 
 #### 5.3 为什么Flow Matching更适合机器人？
 
@@ -520,9 +520,9 @@ $$
 
 π0采用简单的拼接融合策略：
 
-- 将时间步编码 $\phi(t)$ 通过MLP处理得到 $\text{time\_emb}$
-- 将噪声动作 $A_t$ 投影得到 $\text{action\_emb}$
-- 将两者在特征维度拼接： $[\text{action\_emb}, \text{time\_emb}]$
+- 将时间步编码 $\phi(t)$ 通过MLP处理得到 time_emb
+- 将噪声动作 $A_t$ 投影得到 action_emb
+- 将两者在特征维度拼接： $[\text{action emb}, \text{time emb}]$
 - 通过2层MLP融合：
 
 $$
@@ -546,13 +546,13 @@ $$
 - 时间步单独处理，通过2层MLP得到条件向量：
 
 $$
-\text{timestep\_emb} = \text{swish}(W_2 \cdot \text{swish}(W_1 \cdot \phi(t)))
+\text{timestep emb} = \text{swish}(W_2 \cdot \text{swish}(W_1 \cdot \phi(t)))
 $$
 
 - 噪声动作直接投影，无需拼接：
 
 $$
-\text{action\_emb} = \text{linear}(A_t)
+\text{action emb} = \text{linear}(A_t)
 $$
 
 - 在Action Expert的**每一层**，通过Adaptive RMSNorm注入时间步信息：
@@ -560,7 +560,7 @@ $$
 $$
 \begin{aligned}
 \hat{x} &= \frac{x}{\sqrt{\text{mean}(x^2) + \epsilon}} \quad \text{(标准RMSNorm)} \\
-[\text{scale}, \text{shift}, \text{gate}] &= \text{split}(\text{Linear}_{3D}(\text{timestep\_emb}), 3) \\
+[\text{scale}, \text{shift}, \text{gate}] &= \text{split}(\text{Linear}_{3D}(\text{timestep emb}), 3) \\
 \text{output} &= \hat{x} \cdot (1 + \text{scale}) + \text{shift}
 \end{aligned}
 $$
@@ -581,7 +581,7 @@ $$
 | ------------- | ---------------------------------- | ---------------------------------------- |
 | **注入位置**  | 仅在输入层                         | 每一层都注入                             |
 | **融合方式**  | 拼接后通过MLP                      | 通过归一化层的scale/shift参数            |
-| **输入维度**  | $2D$ （需要拼接）                   | $D$ （无需拼接）                          |
+| **输入维度**  | $2D$ （需要拼接）                  | $D$ （无需拼接）                         |
 | **条件强度**  | 弱（只影响输入）                   | 强（影响所有层）                         |
 | **State处理** | 单独的State Token                  | 无State Token，隐式从视觉获取            |
 | **计算开销**  | 较大（需要处理2D特征）             | 较小（D维输入 + 每层少量modulation计算） |
@@ -910,7 +910,7 @@ def forward(self, observation, actions, noise=None, time=None) -> Tensor:
 
 **设计考虑**：
 
-- 使用欧拉方法求解ODE，步长固定为 $\delta = -1/\text{num\_steps}$ （默认10步）
+- 使用欧拉方法求解ODE，步长固定为 $\delta = -1/\text{num steps}$ （默认10步）
 - KV缓存优化：预先计算并缓存图像和语言的注意力KV，每个ODE步骤只重新计算动作部分
 - `@torch.no_grad()`装饰器禁用梯度计算，节省内存和加速推理
 - `torch.compile`编译优化（在`__init__`中），进一步加速（约1.5-2倍）
@@ -1024,14 +1024,14 @@ def sample_actions(self, device, observation, noise=None, num_steps=10) -> Tenso
 
 **与训练的对比**：
 
-| 对比维度     | 训练（`forward`）                 | 推理（`sample_actions`）       |
-| ------------ | --------------------------------- | ------------------------------ |
-| **输入**     | 观测 + 真实动作                   | 观测 + 噪声                    |
+| 对比维度     | 训练（`forward`）                  | 推理（`sample_actions`）        |
+| ------------ | ---------------------------------- | ------------------------------- |
+| **输入**     | 观测 + 真实动作                    | 观测 + 噪声                     |
 | **时间步**   | 随机采样 $t \sim \text{Beta}(...)$ | 固定序列 $t=1.0, 0.9, ..., 0.0$ |
-| **网络调用** | 1次（随机 $t$ ）                    | 10次（ODE迭代）                |
-| **KV缓存**   | 不使用（每次数据不同）            | 使用（观测固定）               |
-| **梯度**     | 需要计算梯度                      | `@torch.no_grad()`禁用梯度     |
-| **输出**     | 损失值                            | 动作序列                       |
+| **网络调用** | 1次（随机 $t$ ）                   | 10次（ODE迭代）                 |
+| **KV缓存**   | 不使用（每次数据不同）             | 使用（观测固定）                |
+| **梯度**     | 需要计算梯度                       | `@torch.no_grad()`禁用梯度      |
+| **输出**     | 损失值                             | 动作序列                        |
 
 ---
 
@@ -1206,7 +1206,7 @@ def denoise_step(
 | --------------- | --------------- | -------------------------- |
 | **State处理**   | 投影为单独token | 不使用state token          |
 | **时间步融合**  | Concat + MLP    | 分离处理 + AdaptiveRMSNorm |
-| **输入维度**    | $2D$ （拼接）    | $D$ （无需拼接）            |
+| **输入维度**    | $2D$ （拼接）   | $D$ （无需拼接）           |
 | **adarms_cond** | `None`          | timestep embedding         |
 
 **设计考虑**：
